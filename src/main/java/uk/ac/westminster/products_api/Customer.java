@@ -5,6 +5,7 @@ public class Customer {
     private String name;
     private String email;
     private Address address;
+    private String[] tags; // Plain array field
 
     // 1. Static field to track total instances created
     private static int customerCount = 0;
@@ -15,11 +16,12 @@ public class Customer {
     }
 
     // 3. Increment in parameterized constructor
-    public Customer(Long id, String name, String email, Address address) {
+    public Customer(Long id, String name, String email, Address address,String[] tags) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
+        this.tags = tags;
         customerCount++;
     }
 
@@ -32,5 +34,9 @@ public class Customer {
     // 4. Static getter method
     public static int getCustomerCount() {
         return customerCount;
+    }
+    // Array getter
+    public String[] getTags() {
+        return tags;
     }
 }
