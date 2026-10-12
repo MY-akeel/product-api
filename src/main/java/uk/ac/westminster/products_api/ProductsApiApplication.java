@@ -1,7 +1,10 @@
 package uk.ac.westminster.products_api;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 5COSC019W Object Oriented Programming - Week 1 starter project.
@@ -10,7 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Run this class (green Run button / Shift+F10) to start the embedded
  * web server on http://localhost:8080
  */
-
+//@EnableAutoConfiguration
+	//@ComponentScan({})
+	//@SpringBootConfiguration
 @SpringBootApplication
 public class ProductsApiApplication {
 
