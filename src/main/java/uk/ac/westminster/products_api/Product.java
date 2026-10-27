@@ -1,14 +1,24 @@
 package uk.ac.westminster.products_api;
 
-public class Product {
+public abstract class Product {
     private Long id;
     private String name;
     private double price;
+
+    public Product() {
+    }
 
     public Product(Long id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    // Abstract method: forces subclasses (DigitalProduct & PhysicalProduct)
+    // to provide their own implementation.
+    //public abstract String getSummary();
+    public String getSummary() {
+        return getName() + " — £" + getPrice();
     }
 
     public Long getId() {
@@ -21,9 +31,6 @@ public class Product {
 
     public double getPrice() {
         return price;
-    }
-    public Product(){
-
     }
 
     public void setId(Long id) {
