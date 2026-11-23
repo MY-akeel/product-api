@@ -26,6 +26,9 @@ public class DigitalProduct extends Product implements Discountable {
 
     @Override
     public void applyDiscount(double rate) {
+        if (rate < 0 || rate > 0.20) {
+            throw new IllegalArgumentException("Discount must be between 0 and 20%");
+        }
         // Nothing is shipped, so the full rate applies
         this.discountedPrice = getPrice() * (1 - rate);
     }
