@@ -8,53 +8,52 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
-    private List<Product> products = new ArrayList<>();
-    private Long nextId = 1L;
+    private final ProductRepository repository;
+//    Depending on the ProductRepository interface means that when the storage changes from in-memory to a database,
+//    you can swap in a new repository class without changing a single line of ProductService.
 
-    public ProductService() {
-        DigitalProduct ebook = new DigitalProduct(
-                nextId++, "Clean Code (E-book)", 29.99,
-                "/downloads/clean-code.pdf", 4.2);
-        ebook.applyDiscount(0.10);
-
-        PhysicalProduct monitor = new PhysicalProduct(
-                nextId++, "27-inch Monitor", 249.99,
-                5.4, "61cm x 41cm x 18cm");
-        monitor.applyDiscount(0.15);
-
-        products.add(ebook);
-        products.add(monitor);
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
     }
 
     public List<Product> getAllProducts() {
-        return products;
+        return repository.findAll();
     }
 
     public List<String> getAllSummaries() {
         List<String> summaries = new ArrayList<>();
-        for (Product p : products) {
+        for (Product p : repository.findAll()) {
             summaries.add(p.getSummary());
         }
         return summaries;
     }
 
     public Product addProduct(Product product) {
-        product.setId(nextId++);
-        products.add(product);
-        return product;
+        return repository.save(product);
     }
 
-    public Optional<Product> getProductById(Long id) {
-        return products.stream().filter(p -> p.getId().equals(id)).findFirst();
+    public Product getProductById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     public void deleteProduct(Long id) {
-        products.removeIf(p -> p.getId().equals(id));
+        Product existing = repository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+        repository.delete(existing.getId());
     }
 
     public List<Product> findByName(String name) {
-        return products.stream()
+        return repository.findAll().stream()
                 .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase()))
                 .toList();
     }
+
+    public List<Product> findAll() {
+        return repository.findAll();
+    }
+
+//    public Optional<Product> findById(long id) {
+//        return repository.findById(id);
+//    }
 }

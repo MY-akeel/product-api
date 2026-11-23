@@ -8,8 +8,11 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/products")
     public List<Product> getAllProducts() {
@@ -18,7 +21,7 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id).orElse(null);
+        return productService.getProductById(id);
     }
 
     @PostMapping("/products")
